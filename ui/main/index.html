@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Угадай Число | Идёт игра...</title>
+    <link rel="stylesheet" href="main.styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script type="text/javascript" src="/eel.js"></script>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+</head>
+<body>
+    <div class="chooseTitle">Ожидание ввода</div>
+    <div class="chooseTitle bigger">Число больше</div>
+    <div class="chooseTitle smaller">Число меньше</div>
+    <div data-aos="fade-up" class="mainWindow">
+        <div class="chatBox">
+            <input type="number" placeholder="Введите число..." class="numInput">
+            <button class="sendButton"><i class='bx bxs-send'></i></button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>
