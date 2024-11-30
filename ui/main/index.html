@@ -11,19 +11,95 @@
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
 </head>
 <body>
-    <div class="chooseTitle">Ожидание ввода</div>
-    <div class="chooseTitle bigger">Число больше</div>
-    <div class="chooseTitle smaller">Число меньше</div>
-    <div data-aos="fade-up" class="mainWindow">
+    <div class="chooseTitle" id="result">Ожидание ввода</div>
+    <!-- <div class="chooseTitle bigger">Число больше</div>
+    <div class="chooseTitle smaller">Число меньше</div> -->
+    <div data-aos="fade-right" class="mainWindow">
         <div class="chatBox">
-            <input type="number" placeholder="Введите число..." class="numInput">
-            <button class="sendButton"><i class='bx bxs-send'></i></button>
+            <input type="number" placeholder="Введите число..." step="1" onkeydown="handleKeyPress(event)" class="numInput" id="numInput">
+            <button class="sendButton" onclick="checkResult()"><i class='bx bxs-send'></i></button>
         </div>
+        <div id="message"></div>
+        <div id="backButton"></div>
     </div>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
         AOS.init();
+    </script>
+    <script>
+        function handleKeyPress(event) {
+            if (event.key === "." || event.key === "," || event.key === "e") {
+                event.preventDefault();
+                return;
+            }
+            
+            if (event.key === "Enter") {
+                checkResult();
+            }
+        }
+
+        function back() {
+            window.location.href = "/mode/index.html";
+        }
+        async function restart() {
+            await eel.restartGame()();
+            window.location.reload();
+        }
+    </script>
+    <script>
+        async function checkResult() {
+            const numInput = document.getElementById("numInput");
+            const message = document.getElementById("message");
+            const resultElem = document.getElementById("result");
+            const back = document.getElementById("backButton");
+            message.innerHTML = "";
+
+            if (numInput.value.trim() === "") {
+                message.innerHTML = '<div data-aos="fade-right" class="message">Поле пустое. Пожалуйста, введите значение.</div>';
+                return;
+            }
+
+            const num = Number(numInput.value);
+            if (isNaN(num)) {
+                message.innerHTML = '<div data-aos="fade-right" class="message">Введите целое число.</div>';
+                return;
+            }
+
+            const result = await eel.checkGuess(num)();
+
+            if (result == "<") {
+                resultElem.classList = "chooseTitle smaller";
+                resultElem.innerText = "Число меньше";
+
+                resultElem.classList.add('shake');
+                setTimeout(() => { resultElem.classList.remove('shake'); }, 500);
+            } else if (result == ">") {
+                resultElem.classList = "chooseTitle bigger";
+                resultElem.innerText = "Число больше";
+
+                resultElem.classList.add('shake');
+                setTimeout(() => { resultElem.classList.remove('shake'); }, 500);
+            } else {
+                resultElem.classList = "chooseTitle winner";
+                resultElem.innerText = "Вы угадали!";
+                
+                numInput.disabled = true;
+                document.querySelector(".sendButton").disabled = true;
+                
+                back.innerHTML = '<button data-aos="fade-right" class="backButton" onclick="back()">Вернуться</button><button data-aos="fade-left" class="backButton" onclick="restart()">Играть ещё</button>';
+                
+                document.addEventListener('keydown', function(event) {
+                    if (event.ctrlKey && event.key === 'r') {
+                        event.preventDefault();
+                        restart();
+                    }
+                });
+            }
+
+            numInput.value = "";
+            numInput.focus();
+        }
     </script>
 </body>
 </html>

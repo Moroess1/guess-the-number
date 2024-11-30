@@ -9,28 +9,29 @@ max = 100
 
 
 @eel.expose
-def setRange(minValue, maxValue):
+def startGame(minValue, maxValue):
     global min, max, currentNumber
     min = int(minValue)
     max = int(maxValue)
     currentNumber = random.randint(min, max)
+    print(currentNumber)
 
 @eel.expose
-def startGame():
-    global currentNumber
+def restartGame():
+    global min, max, currentNumber
     currentNumber = random.randint(min, max)
-    return f"Число загадано! Угадайте его от {min} до {max}."
+    print(currentNumber)
 
 @eel.expose
 def checkGuess(guess):
     global currentNumber
     guess = int(guess)
     if (guess < currentNumber):
-        return "Больше!"
+        return ">"
     elif (guess > currentNumber):
-        return "Меньше!"
+        return "<"
     else:
-        return "Вы угадали!"
+        return "="
 
 
-eel.start('main/index.html', size=(960, 640), position=(500, 200), mode="edge")
+eel.start('mode/index.html', size=(960, 640), position=(500, 200), mode="edge")

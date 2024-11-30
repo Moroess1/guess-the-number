@@ -73,12 +73,9 @@ header {
     box-shadow: 0px 2px 6px #08080850;
 }
 .chooseTitle {
-    transform: skew(12deg, 0);
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 32px;
-    font-style: italic;
-    background: linear-gradient(135deg, #1097ff, #0081e4);
-    padding: 6px 16px;
-    font-family: "Rubik", sans-serif;
+    background: #FFFFFF;
+    background: linear-gradient(to bottom, #FFFFFF 0%, #1b1b1b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 72px;
 }

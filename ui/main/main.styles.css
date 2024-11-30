@@ -75,8 +75,13 @@ body  {
     color: #ffffff;
     background-color: #181818;
 }
+.sendButton:disabled:hover {
+    color: #ffffff80;
+    background-color: #161616;
+}
 
 .numInput { 
+    width: 100%;
     padding: 8px 12px;
     font-size: 17px;
     border-radius: 9999px;
@@ -114,10 +119,79 @@ body  {
 }
 
 .chooseTitle.bigger {
-    background: linear-gradient(135deg, #2dc653, #25a244);
+    background: linear-gradient(135deg, #7678ed, #5658d1);
     filter: grayscale(0);
 }
 .chooseTitle.smaller {
     background: linear-gradient(135deg, #1097ff, #0081e4);
     filter: grayscale(0);
+}
+.chooseTitle.winner {
+    background: linear-gradient(135deg, #2dc653, #25a244);
+    filter: grayscale(0);
+}
+
+#message {
+    transition: .24s;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+}
+.message {
+    margin-top: 12px;
+    font-size: 13px;
+    width: max-content;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #242424;
+    color: #e63946;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 9999px;
+}
+
+
+#backButton {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.backButton {
+    margin-top: 16px;
+    color: #ffffff80;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: .24s;
+    width: max-content;
+    padding: 8px 20px;
+    border-radius: 9999px;
+    background-color: #242424;
+}
+.backButton:hover {
+    background-color: #272727;
+    color: #ffffff;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0) skew(12deg, 0);
+  }
+  50% {
+    transform: translateX(-7px) skew(12deg, 0);
+  }
+  100% {
+    transform: translateX(7px) skew(12deg, 0);
+  }
+}
+
+.shake {
+  animation: shake 0.14s ease-in-out;
+  animation-iteration-count: 1;
 }

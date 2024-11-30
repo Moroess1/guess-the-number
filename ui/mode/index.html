@@ -11,18 +11,24 @@
 </head>
 <body>
     <div class="mainWindow">
-        <div class="chooseTitle">Выбор сложности</div>
+        <h1 class="chooseTitle">Выбор сложности</h1>
         <div data-aos="fade-up" class="mainBlock">
-            <button class="selectDifficult">0 - 10</button>
-            <button class="selectDifficult">0 - 50</button>
-            <button class="selectDifficult">0 - 100</button>
-            <button class="selectDifficult">0 - 500</button>
+            <button class="selectDifficult" onclick="startGame(0, 10)">0 - 10</button>
+            <button class="selectDifficult" onclick="startGame(0, 50)">0 - 50</button>
+            <button class="selectDifficult" onclick="startGame(0, 100)">0 - 100</button>
+            <button class="selectDifficult" onclick="startGame(0, 500)">0 - 500</button>
         </div>
     </div>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
         AOS.init();
+    </script>
+    <script>
+        async function startGame(min, max) {
+            await eel.startGame(min, max)();
+            window.location.href = "/main/index.html";
+        }
     </script>
 </body>
 </html>
