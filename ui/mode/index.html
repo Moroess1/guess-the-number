@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="mode.styles.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <script type="text/javascript" src="/eel.js"></script>
-    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
     <div class="mainWindow">
@@ -26,6 +26,7 @@
     </script>
     <script>
         async function startGame(min, max) {
+            localStorage.removeItem('points');
             await eel.startGame(min, max)();
             window.location.href = "/main/index.html";
         }

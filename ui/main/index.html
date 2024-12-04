@@ -8,19 +8,19 @@
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script type="text/javascript" src="/eel.js"></script>
-    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
     <div class="chooseTitle" id="result">Ожидание ввода</div>
-    <!-- <div class="chooseTitle bigger">Число больше</div>
-    <div class="chooseTitle smaller">Число меньше</div> -->
     <div data-aos="fade-right" class="mainWindow">
         <div class="chatBox">
             <input type="number" placeholder="Введите число..." step="1" onkeydown="handleKeyPress(event)" class="numInput" id="numInput">
             <button class="sendButton" onclick="checkResult()"><i class='bx bxs-send'></i></button>
         </div>
         <div id="message"></div>
-        <div id="backButton"></div>
+        <div id="backButton">
+            <div class="pointCounter">Попытка: <span id="pointsLabel">0</span></div>
+        </div>
     </div>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
@@ -29,7 +29,7 @@
     </script>
     <script>
         function handleKeyPress(event) {
-            if (event.key === "." || event.key === "," || event.key === "e") {
+            if (event.key === "." || event.key === "," || event.key === "e" || event.key === "+") {
                 event.preventDefault();
                 return;
             }
@@ -38,46 +38,60 @@
                 checkResult();
             }
         }
-
+    
         function back() {
+            localStorage.removeItem('points');
             window.location.href = "/mode/index.html";
         }
+    
         async function restart() {
+            localStorage.removeItem('points');
             await eel.restartGame()();
             window.location.reload();
         }
-    </script>
-    <script>
+    
+        window.onload = () => {
+            const pointsLabel = document.getElementById("pointsLabel");
+            const savedPoints = localStorage.getItem('points');
+            pointsLabel.textContent = savedPoints ? Number(savedPoints) : 0;
+        };
+    
         async function checkResult() {
             const numInput = document.getElementById("numInput");
             const message = document.getElementById("message");
             const resultElem = document.getElementById("result");
+            const pointsLabel = document.getElementById("pointsLabel");
             const back = document.getElementById("backButton");
             message.innerHTML = "";
-
+    
             if (numInput.value.trim() === "") {
                 message.innerHTML = '<div data-aos="fade-right" class="message">Поле пустое. Пожалуйста, введите значение.</div>';
                 return;
             }
-
+    
             const num = Number(numInput.value);
             if (isNaN(num)) {
                 message.innerHTML = '<div data-aos="fade-right" class="message">Введите целое число.</div>';
                 return;
             }
-
+    
             const result = await eel.checkGuess(num)();
-
+            let points = Number(pointsLabel.textContent) + 1;
+            pointsLabel.textContent = points;
+    
+            // Сохранить points в localStorage
+            localStorage.setItem('points', points);
+    
             if (result == "<") {
                 resultElem.classList = "chooseTitle smaller";
                 resultElem.innerText = "Число меньше";
-
+    
                 resultElem.classList.add('shake');
                 setTimeout(() => { resultElem.classList.remove('shake'); }, 500);
             } else if (result == ">") {
                 resultElem.classList = "chooseTitle bigger";
                 resultElem.innerText = "Число больше";
-
+    
                 resultElem.classList.add('shake');
                 setTimeout(() => { resultElem.classList.remove('shake'); }, 500);
             } else {
@@ -87,7 +101,7 @@
                 numInput.disabled = true;
                 document.querySelector(".sendButton").disabled = true;
                 
-                back.innerHTML = '<button data-aos="fade-right" class="backButton" onclick="back()">Вернуться</button><button data-aos="fade-left" class="backButton" onclick="restart()">Играть ещё</button>';
+                back.innerHTML = '<button data-aos="fade-right" class="backButton" onclick="back()">Вернуться</button><div class="pointCounter">Попытка: '+ points.toString() +'</div><button data-aos="fade-left" class="backButton" onclick="restart()">Играть ещё</button>';
                 
                 document.addEventListener('keydown', function(event) {
                     if (event.ctrlKey && event.key === 'r') {
@@ -96,7 +110,7 @@
                     }
                 });
             }
-
+    
             numInput.value = "";
             numInput.focus();
         }

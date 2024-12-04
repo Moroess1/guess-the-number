@@ -1,4 +1,4 @@
-<img src="https://i.ibb.co/Hq9jH28/msedge-q-BIaog-IQIO.png">
+<img style="width:100%" src="https://i.ibb.co/xgJNJJN/banner.png">
 
 # Guess The Number
 
